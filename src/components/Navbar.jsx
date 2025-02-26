@@ -1,10 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FiHome, FiFileText } from 'react-icons/fi';
+import logo from '../Logo.webp'
 
 const Navbar = () => {
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md p-4 flex justify-between items-center">
+      <img src={logo} alt="Pastes Logo" className="h-10 w-10"/>
       <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
         Create My Paste
       </div>
