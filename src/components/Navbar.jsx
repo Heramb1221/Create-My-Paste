@@ -7,8 +7,11 @@ const Navbar = () => {
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md p-4 flex justify-between items-center">
       <img src={logo} alt="Pastes Logo" className="h-10 w-10"/>
-      <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-        Create My Paste
+      <div className="flex gap-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+      <p className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 text-transparent bg-clip-text drop-shadow-lg">
+        NoteNest
+      </p>
+      <p className="mt-3 text-lg text-gray-500 italic">– A cozy place for all your notes.</p>
       </div>
       <div className="flex gap-6">
         <NavLink
