@@ -1,13 +1,33 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { FiHome, FiFileText } from 'react-icons/fi';
 
 const Navbar = () => {
   return (
-    <div>
-        <NavLink to='/'>Home</NavLink>
-        <NavLink to='/pastes'>Pastes</NavLink>
-    </div>
-  )
-}
+    <nav className="bg-white dark:bg-gray-900 shadow-md p-4 flex justify-between items-center">
+      <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        Create My Paste
+      </div>
+      <div className="flex gap-6">
+        <NavLink
+          to='/'
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-lg transition duration-200 ${isActive ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800'}`
+          }
+        >
+          <FiHome /> Home
+        </NavLink>
+        <NavLink
+          to='/pastes'
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-lg transition duration-200 ${isActive ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800'}`
+          }
+        >
+          <FiFileText /> Pastes
+        </NavLink>
+      </div>
+    </nav>
+  );
+};
 
-export default Navbar
+export default Navbar;

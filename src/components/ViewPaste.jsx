@@ -1,40 +1,83 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { addToPastes, updateToPastes } from '../redux/pasteSlice';
+import { useParams, useNavigate } from 'react-router-dom';
+import { updateToPastes } from '../redux/pasteSlice';
 import toast from 'react-hot-toast';
 
 const ViewPaste = () => {
-
-    const {id} = useParams();
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const allPastes = useSelector((state) => state.paste.pastes);
 
-    const paste = allPastes.filter((p) => p._id === id)[0];
+    const paste = useMemo(() => allPastes.find((p) => p._id === id) || { title: '', content: '' }, [allPastes, id]);
 
-  return (
-    <div>
-        <div className='flex flex-row gap-7 place-content-between'>
-            <input
-            className='p-2 rounded-xl mt-2 w-[66%] pl-4'
-                type='text'
-                placeholder='enter title here'
-                value={paste.title}
-                disabled
-            />
+    const [title, setTitle] = useState(paste.title);
+    const [content, setContent] = useState(paste.content);
+    const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        setTitle(paste.title);
+        setContent(paste.content);
+    }, [paste.title, paste.content]);
+
+    const handleSave = () => {
+        if (!title.trim() || !content.trim()) {
+            toast.error("Title and content cannot be empty!");
+            return;
+        }
+
+        dispatch(updateToPastes({ _id: id, title, content }));
+        setIsEditing(false);
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center p-6">
+            <div className="w-full max-w-3xl bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+                <input
+                    className="w-full p-3 rounded-xl bg-gray-700 text-white placeholder-gray-400 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="text"
+                    placeholder="Enter title here"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    disabled={!isEditing}
+                />
+                <textarea
+                    className="w-full p-4 mt-4 h-60 rounded-xl bg-gray-700 text-white placeholder-gray-400 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder="Enter content here"
+                    disabled={!isEditing}
+                />
+
+                <div className="mt-4 flex justify-between">
+                    {!isEditing ? (
+                        <button
+                            className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
+                            onClick={() => setIsEditing(true)}
+                        >
+                            Edit Note
+                        </button>
+                    ) : (
+                        <button
+                            className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+                            onClick={handleSave}
+                        >
+                            Save Changes
+                        </button>
+                    )}
+
+                    <button
+                        className="px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition"
+                        onClick={() => navigate('/pastes')}
+                    >
+                        Back
+                    </button>
+                </div>
+            </div>
         </div>
+    );
+};
 
-        <div className='mt-8'>
-            <textarea
-                className='rounded-2xl mt-4 min-w-[500px] p-4'
-                value={paste.content}
-                placeholder='enter content here'
-                disabled
-                rows={20}
-            />
-        </div>
-    </div>
-  )
-}
-
-export default ViewPaste
+export default ViewPaste;

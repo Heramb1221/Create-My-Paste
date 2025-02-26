@@ -17,23 +17,22 @@ export const pasteSlice = createSlice({
     reducers: {
         addToPastes: (state, action) => {
 
-            //add a check if paste already exists
             const paste = action.payload;
             state.pastes.push(paste);
             localStorage.setItem("pastes", JSON.stringify(state.pastes));
-            toast("Paste created Successfully")
+            toast.success("Paste created Successfully")
         },
         updateToPastes: (state, action) => {
             const paste = action.payload;
-            const index = state.pastes.findIndex((item) => item._id === paste.id);
+            const index = state.pastes.findIndex((item) => item._id === paste._id);
 
-            if(index >= 0) {
+            if (index >= 0) {
                 state.pastes[index] = paste;
-
                 localStorage.setItem("pastes", JSON.stringify(state.pastes));
             }
-            toast.success("Paste Updated")
+            toast.success("Note updated successfully!");
         },
+
         resetAllPastes: (state, action) => {
             state.pastes = [];
 
@@ -50,7 +49,7 @@ export const pasteSlice = createSlice({
 
                 localStorage.setItem("pastes", JSON.stringify(state.pastes));
 
-                toast.success("Paste deleted")
+                toast.success("Paste deleted successfully!")
             }
         },
     },
