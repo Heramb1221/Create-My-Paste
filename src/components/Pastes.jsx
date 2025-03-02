@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromPastes } from '../redux/pasteSlice';
+import { deleteNote } from '../redux/pasteSlice';
 import toast from 'react-hot-toast';
 import { FiEdit, FiEye, FiTrash2, FiShare2, FiClipboard } from 'react-icons/fi';
 import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
@@ -16,7 +16,7 @@ const Pastes = () => {
     );
 
     function handleDelete(pasteId) {
-        dispatch(removeFromPastes(pasteId));
+        dispatch(deleteNote(pasteId));
     }
 
     function handleCopy(content) {

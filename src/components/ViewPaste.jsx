@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { updateToPastes } from '../redux/pasteSlice';
+import { updateNote } from '../redux/pasteSlice';
 import toast from 'react-hot-toast';
 
 const ViewPaste = () => {
@@ -28,7 +28,7 @@ const ViewPaste = () => {
             return;
         }
 
-        dispatch(updateToPastes({ _id: id, title, content }));
+        dispatch(updateNote({ _id: id, title, content }));
         setIsEditing(false);
     };
 
